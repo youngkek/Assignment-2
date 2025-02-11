@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome {{ user.username }}!</h1>
+        <!-- Flash messages display section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    <h2>Your Quizzes:</h2>
+    <ul>
+        {% for quiz in quizzes %}
+            <li>
+                <a href="{{ url_for('take_quiz', quiz_id=quiz.id) }}">{{ quiz.title }}</a>
+            </li>
+        {% else %}
+            <p>You haven't created any quizzes yet. <a href="{{ url_for('create_quiz') }}">Create one now</a></p>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('create_quiz') }}">Create a New Quiz</a>
+    <br><br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
